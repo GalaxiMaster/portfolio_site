@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfiolio_website/dot_background.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/link.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -48,26 +49,58 @@ class _HomePageState extends State<HomePage> {
                       Row(
                         spacing: 10,
                         children: [
-                          SvgPicture.asset(
-                            'icons/github.svg',
-                            width: 24,
-                            height: 24,
-                            colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
+                          Text(
+                            '— Find me on:',
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 16,
+                              color: Color.fromARGB(255, 146, 146, 146),
+                            ),
                           ),
-                          SvgPicture.asset(
-                            'icons/linkedIn.svg',
-                            width: 24,
-                            height: 24,
-                            colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
+                          Link(
+                            uri: Uri.parse('https://github.com/GalaxiMaster'),
+                            target: LinkTarget.blank,
+                            builder: (BuildContext context, FollowLink? followLink) => IconButton(
+                              onPressed: followLink,
+                              icon: SvgPicture.asset(
+                                'icons/github.svg',
+                                width: 24,
+                                height: 24,
+                                colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
+                              ),
+                            ),
                           ),
-                          SvgPicture.asset(
-                            'icons/email.svg',
-                            width: 24,
-                            height: 24,
-                            colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
+                          Link(
+                            uri: Uri.parse('https://www.linkedin.com/in/dylan-j-3a3637317/'),
+                            target: LinkTarget.blank,
+                            builder: (BuildContext context, FollowLink? followLink) => IconButton(
+                              onPressed: followLink,
+                              icon: SvgPicture.asset(
+                                'icons/linkedIn.svg',
+                                width: 24,
+                                height: 24,
+                                colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
+                              ),
+                            ),
+                          ),
+                          Link(
+                            uri: Uri(
+                              scheme: 'mailto',
+                              path: 'dmj08bot@gmail.com',
+                            ),
+                            target: LinkTarget.blank,
+                            builder: (BuildContext context, FollowLink? followLink) => IconButton(
+                              onPressed: followLink,
+                              icon: SvgPicture.asset(
+                                'icons/email.svg',
+                                width: 24,
+                                height: 24,
+                                colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
+                              ),
+                            ),
                           ),
                         ],
-                      ),                      
+                      ),
                     ],
                   ),
                   SizedBox(width: 500),
