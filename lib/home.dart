@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfiolio_website/dot_background.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,6 +28,7 @@ class _HomePageState extends State<HomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildNameText(),
+                      SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         spacing: 10,
@@ -41,10 +43,34 @@ class _HomePageState extends State<HomePage> {
                             text: 'Contact Me',
                           )
                         ],
-                      )
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        spacing: 10,
+                        children: [
+                          SvgPicture.asset(
+                            'icons/github.svg',
+                            width: 24,
+                            height: 24,
+                            colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
+                          ),
+                          SvgPicture.asset(
+                            'icons/linkedIn.svg',
+                            width: 24,
+                            height: 24,
+                            colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
+                          ),
+                          SvgPicture.asset(
+                            'icons/email.svg',
+                            width: 24,
+                            height: 24,
+                            colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
+                          ),
+                        ],
+                      ),                      
                     ],
                   ),
-                  SizedBox(width: 400),
+                  SizedBox(width: 500),
                 ],
               ),
             ),
