@@ -115,7 +115,7 @@ class _DotGridPainter extends CustomPainter {
           proximity = proximity * proximity;
 
           if (dist > 0) {
-            final pushStrength = proximity * 10.0;
+            final pushStrength = proximity * 7;
             drawPos = gridPos + (delta / dist) * pushStrength;
           }
         }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:portfiolio_website/dot_background.dart';
+import 'package:portfiolio_website/home.dart';
 
 void main() {
   runApp(const MainApp());
@@ -11,22 +11,12 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: Colors.black,
+        colorScheme: const ColorScheme.dark(),
+      ),
       home: Scaffold(
-        body: DotGridBackground(
-          highlightColor: Colors.tealAccent,
-          hoverRadius: 160,
-          child: Center(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              height: 100,
-              width: 100,
-              child: Text('test')
-            )
-          ),
-        ),
+        body: HomePage()
       ),
     );
   }
