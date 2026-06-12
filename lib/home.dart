@@ -11,35 +11,47 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return DotGridBackground(
-      highlightColor: Colors.tealAccent,
-      hoverRadius: 160,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+    return SingleChildScrollView(
+      child: Column(
         children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildNameText(),
-              Row(
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: DotGridBackground(
+              highlightColor: Colors.tealAccent,
+              hoverRadius: 160,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 10,
                 children: [
-                  actionTextButton(
-                    onPressed: () {},
-                    text: 'View My Work',
-                    icon: Icons.arrow_forward,
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildNameText(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        spacing: 10,
+                        children: [
+                          actionTextButton(
+                            onPressed: () {},
+                            text: 'View My Work',
+                            icon: Icons.arrow_forward,
+                          ),
+                          actionTextButton(
+                            onPressed: () {},
+                            text: 'Contact Me',
+                          )
+                        ],
+                      )
+                    ],
                   ),
-                  actionTextButton(
-                    onPressed: () {},
-                    text: 'Contact Me',
-                  )
+                  SizedBox(width: 400),
                 ],
-              )
-            ],
+              ),
+            ),
           ),
-          SizedBox(width: 400),
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+          ),
         ],
       ),
     );
