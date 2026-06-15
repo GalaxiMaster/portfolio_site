@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfiolio_website/dot_background.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:portfiolio_website/models/projects_details.dart';
 import 'package:url_launcher/link.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,61 +47,7 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                       SizedBox(height: 20),
-                      Row(
-                        spacing: 10,
-                        children: [
-                          Text(
-                            '— Find me on:',
-                            style: TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: 16,
-                              color: Color.fromARGB(255, 146, 146, 146),
-                            ),
-                          ),
-                          Link(
-                            uri: Uri.parse('https://github.com/GalaxiMaster'),
-                            target: LinkTarget.blank,
-                            builder: (BuildContext context, FollowLink? followLink) => IconButton(
-                              onPressed: followLink,
-                              icon: SvgPicture.asset(
-                                'icons/github.svg',
-                                width: 24,
-                                height: 24,
-                                colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
-                              ),
-                            ),
-                          ),
-                          Link(
-                            uri: Uri.parse('https://www.linkedin.com/in/dylan-j-3a3637317/'),
-                            target: LinkTarget.blank,
-                            builder: (BuildContext context, FollowLink? followLink) => IconButton(
-                              onPressed: followLink,
-                              icon: SvgPicture.asset(
-                                'icons/linkedIn.svg',
-                                width: 24,
-                                height: 24,
-                                colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
-                              ),
-                            ),
-                          ),
-                          Link(
-                            uri: Uri(
-                              scheme: 'mailto',
-                              path: 'dmj08bot@gmail.com',
-                            ),
-                            target: LinkTarget.blank,
-                            builder: (BuildContext context, FollowLink? followLink) => IconButton(
-                              onPressed: followLink,
-                              icon: SvgPicture.asset(
-                                'icons/email.svg',
-                                width: 24,
-                                height: 24,
-                                colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      _buildContactRow(),
                     ],
                   ),
                   SizedBox(width: 500),
@@ -108,11 +55,155 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
+          SizedBox(height: 30),
           SizedBox(
             height: MediaQuery.of(context).size.height,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 300),
+                child: Column(
+                  children: [
+                    ShaderMask(
+                      blendMode: BlendMode.srcIn,
+                      shaderCallback: (bounds) => LinearGradient(
+                          colors: const [
+                            Colors.white,
+                            Colors.white,
+                            Colors.white,
+                            Color.fromARGB(255, 116, 233, 206),
+                            Colors.tealAccent,
+                            Color(0xFF60A5FA),
+                          ],
+                          stops: const [0.0, 0.1, 0.4, 0.6, 0.7, 1.0],
+                      ).createShader(bounds),
+                      child: Text(
+                        'Projects',
+                        style: TextStyle(
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w900,
+                          fontSize: 56,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    GridView.builder(
+                      itemCount: projectsList.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 4,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                      ),
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) => Container(
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 17, 17, 17),
+                          border: Border.all(color: Color.fromARGB(255, 35, 35, 35), width: 1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                              child: SizedBox(
+                                height: 175,
+                                child: Expanded(
+                                  child: Image.asset(projectsList[index].imageUrl, height: 100, fit: BoxFit.fill)
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              projectsList[index].title,
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                projectsList[index].description,
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontSize: 14,
+                                  color: Color.fromARGB(255, 146, 146, 146),
+                                ),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            )
+                          ]
+                        )
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
         ],
       ),
+    );
+  }
+
+  Row _buildContactRow() {
+    return Row(
+      spacing: 10,
+      children: [
+        Text(
+          '— Find me on:',
+          style: TextStyle(
+            fontFamily: 'Inter',
+            fontSize: 16,
+            color: Color.fromARGB(255, 146, 146, 146),
+          ),
+        ),
+        Link(
+          uri: Uri.parse('https://github.com/GalaxiMaster'),
+          target: LinkTarget.blank,
+          builder: (BuildContext context, FollowLink? followLink) => IconButton(
+            onPressed: followLink,
+            icon: SvgPicture.asset(
+              'icons/github.svg',
+              width: 24,
+              height: 24,
+              colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
+            ),
+          ),
+        ),
+        Link(
+          uri: Uri.parse('https://www.linkedin.com/in/dylan-j-3a3637317/'),
+          target: LinkTarget.blank,
+          builder: (BuildContext context, FollowLink? followLink) => IconButton(
+            onPressed: followLink,
+            icon: SvgPicture.asset(
+              'icons/linkedIn.svg',
+              width: 24,
+              height: 24,
+              colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
+            ),
+          ),
+        ),
+        Link(
+          uri: Uri(
+            scheme: 'mailto',
+            path: 'dmj08bot@gmail.com',
+          ),
+          target: LinkTarget.blank,
+          builder: (BuildContext context, FollowLink? followLink) => IconButton(
+            onPressed: followLink,
+            icon: SvgPicture.asset(
+              'icons/email.svg',
+              width: 24,
+              height: 24,
+              colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

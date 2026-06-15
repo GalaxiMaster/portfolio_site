@@ -12,9 +12,10 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: Colors.black,
+        scaffoldBackgroundColor: Color.fromARGB(255, 13, 13, 13),
         colorScheme: const ColorScheme.dark(),
       ),
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: HomePage()
       ),

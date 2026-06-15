@@ -97,8 +97,8 @@ class _DotGridPainter extends CustomPainter {
 
     final paint = Paint()..isAntiAlias = true;
 
-    final cols = (size.width / dotSpacing).ceil() + 1;
-    final rows = (size.height / dotSpacing).ceil() + 1;
+    final cols = (size.width / dotSpacing).ceil();
+    final rows = (size.height / dotSpacing).ceil();
 
     for (int col = 0; col < cols; col++) {
       for (int row = 0; row < rows; row++) {
