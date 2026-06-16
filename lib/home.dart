@@ -1,11 +1,10 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:portfiolio_website/dot_background.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:portfiolio_website/models/projects_details.dart';
 import 'package:portfiolio_website/tools.dart';
-import 'package:url_launcher/link.dart';
+import 'package:web/web.dart' as web;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -144,46 +143,37 @@ class _HomePageState extends State<HomePage> {
             color: Color.fromARGB(255, 146, 146, 146),
           ),
         ),
-        Link(
-          uri: Uri.parse('https://github.com/GalaxiMaster'),
-          target: LinkTarget.blank,
-          builder: (BuildContext context, FollowLink? followLink) => IconButton(
-            onPressed: followLink,
-            icon: SvgPicture.asset(
-              'icons/github.svg',
-              width: 24,
-              height: 24,
-              colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
-            ),
+        IconButton(
+          onPressed: (){
+            web.window.open('https://github.com/GalaxiMaster/', '_blank');
+          },          
+          icon: SvgPicture.asset(
+            'icons/github.svg',
+            width: 24,
+            height: 24,
+            colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
           ),
         ),
-        Link(
-          uri: Uri.parse('https://www.linkedin.com/in/dylan-j-3a3637317/'),
-          target: LinkTarget.blank,
-          builder: (BuildContext context, FollowLink? followLink) => IconButton(
-            onPressed: followLink,
-            icon: SvgPicture.asset(
-              'icons/linkedIn.svg',
-              width: 24,
-              height: 24,
-              colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
-            ),
+        IconButton(
+          onPressed: (){
+            web.window.open('https://www.linkedin.com/in/dylan-j-3a3637317/', '_blank');
+          },
+          icon: SvgPicture.asset(
+            'icons/linkedIn.svg',
+            width: 24,
+            height: 24,
+            colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
           ),
         ),
-        Link(
-          uri: Uri(
-            scheme: 'mailto',
-            path: 'dmj08bot@gmail.com',
-          ),
-          target: LinkTarget.blank,
-          builder: (BuildContext context, FollowLink? followLink) => IconButton(
-            onPressed: followLink,
-            icon: SvgPicture.asset(
-              'icons/email.svg',
-              width: 24,
-              height: 24,
-              colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
-            ),
+        IconButton(
+          onPressed: (){
+            web.window.open('https://mailto:dmj08bot@gmail.com', '_blank');
+          },          
+          icon: SvgPicture.asset(
+            'icons/email.svg',
+            width: 24,
+            height: 24,
+            colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
           ),
         ),
       ],
