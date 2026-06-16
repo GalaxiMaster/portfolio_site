@@ -89,147 +89,44 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: Expanded(
-                    child: Center(
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: 1500),
-                        child: LayoutBuilder(
-                          builder: (context, constraints) {
-                            final int columns = (constraints.maxWidth / 400).floor().clamp(1, 3);
-                            final double cardWidth = (constraints.maxWidth - (columns - 1) * 10) / columns;
-                            final imageHeight = cardWidth * 9 / 16;
-                            final double? cardHeight = columns > 1 
-                              ? projectsList.map(
-                                (p) => measureTextHeight(
-                                  p.description, 
-                                  TextStyle(fontFamily: 'Inter', fontSize: 14), 
-                                  cardWidth - 16
-                                ) + 70 + 50
-                              ).reduce(max) + imageHeight
-                              : null;
-                            return Wrap(
-                              spacing: 10,
-                              runSpacing: 10,
-                              children: projectsList.map((project) {
-                                return SizedBox(
-                                  width: cardWidth,
-                                  height: cardHeight,
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 17, 17, 17),
-                                      border: Border.all(color: Color.fromARGB(255, 35, 35, 35), width: 1),
-                                      borderRadius: BorderRadius.circular(12),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Stack(
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                                              child: Image.asset(
-                                                project.imageUrl,
-                                                width: double.infinity,
-                                              ),
-                                            ),
-                                            Positioned(
-                                              top: 8,
-                                              left: 8,
-                                              child: Row(
-                                                spacing: 6,
-                                                children: project.publishedLocations.map((location) {
-                                                  final color = switch(location.toLowerCase()) {
-                                                    'web' => Color.fromARGB(255, 158, 110, 205),
-                                                    'desktop' => Color.fromARGB(255, 96, 173, 247),
-                                                    'android' => Color.fromARGB(255, 67, 190, 111),
-                                                    'ios' => Color.fromARGB(255, 168, 174, 246),
-                                                    _ => Color.fromARGB(255, 35, 35, 35),
-                                                  };
-                                                  return Container(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                                    decoration: BoxDecoration(
-                                                      color: Color.fromARGB(200, 6, 5, 5),
-                                                      borderRadius: BorderRadius.circular(6),
-                                                      border: Border.all(color: color, width: 1),
-                                                    ),
-                                                    child: Text(
-                                                      location,
-                                                      style: TextStyle(
-                                                        fontFamily: 'Inter',
-                                                        fontSize: 12,
-                                                        color: color,
-                                                      ),
-                                                    ),
-                                                  );
-                                                }).toList()
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        SizedBox(height: 10),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                          child: Text(
-                                            project.title,
-                                            style: TextStyle(
-                                              fontFamily: 'Inter',
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 18,
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            project.description,
-                                            style: TextStyle(
-                                              fontFamily: 'Inter',
-                                              fontSize: 14,
-                                              color: Color.fromARGB(255, 146, 146, 146),
-                                            ),
-                                          ),
-                                        ),
-                                        Spacer(),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Wrap(
-                                            spacing: 6,
-                                            runSpacing: 6,
-                                            children: project.technologies.map((tech) => Container(
-                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                              margin: const EdgeInsets.only(left: 8, bottom: 8),
-                                              decoration: BoxDecoration(
-                                                color: Color.fromARGB(255, 35, 35, 35),
-                                                borderRadius: BorderRadius.circular(6),
-                                              ),
-                                              child: Text(
-                                                tech,
-                                                style: TextStyle(
-                                                  fontFamily: 'Inter',
-                                                  fontSize: 14,
-                                                  color: Color.fromARGB(255, 161, 161, 161),
-                                                ),
-                                              ),
-                                            )).toList(),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: 1500),
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        final int columns = (constraints.maxWidth / 400).floor().clamp(1, 3);
+                        final double cardWidth = (constraints.maxWidth - columns * 10) / columns;
+                        final imageHeight = cardWidth * 9 / 16;
+                        final double? cardHeight = columns > 1 
+                          ? projectsList.map(
+                            (p) => measureTextHeight(
+                              p.description, 
+                              TextStyle(fontFamily: 'Inter', fontSize: 14), 
+                              cardWidth - 16
+                            ) + 70 + measureTagsHeight(p.technologies, cardWidth - 16)
+                          ).reduce(max) + imageHeight
+                          : null;
+                        return Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: projectsList.map((project) {
+                            return SizedBox(
+                              width: cardWidth,
+                              height: cardHeight,
+                              child: ProjectTile(
+                                project: project,
+                                fixedHeight: cardHeight != null,
+                              ),
                             );
-                          },
-                        )
-                      ),
-                    ),
+                          }).toList(),
+                        );
+                      },
+                    )
                   ),
                 ),
               ],
             ),
           ),
+          SkillsSection(),
         ],
       ),
     );
@@ -356,4 +253,280 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+}
+
+class ProjectTile extends StatelessWidget {
+  final ProjectDetails project;
+  final bool fixedHeight;
+  ProjectTile({
+    super.key,
+    required this.project,
+    required this.fixedHeight,
+  });
+  final ValueNotifier<bool> _isHovered = ValueNotifier(false);
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: _isHovered,
+      builder: (context, isHovered, child) {
+        return MouseRegion(
+          onHover: (event) => _isHovered.value = true,
+          onExit: (event) => _isHovered.value = false,
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 17, 17, 17),
+                  border: Border.all(color: Color.fromARGB(255, 35, 35, 35), width: 1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                          child: Image.asset(
+                            project.imageUrl,
+                            width: double.infinity,
+                          ),
+                        ),
+                        Positioned(
+                          top: 8,
+                          left: 8,
+                          child: Row(
+                            spacing: 6,
+                            children: project.publishedLocations.map((location) {
+                              final color = switch(location.toLowerCase()) {
+                                'web' => Color.fromARGB(255, 158, 110, 205),
+                                'desktop' => Color.fromARGB(255, 96, 173, 247),
+                                'android' => Color.fromARGB(255, 67, 190, 111),
+                                'ios' => Color.fromARGB(255, 168, 174, 246),
+                                _ => Color.fromARGB(255, 35, 35, 35),
+                              };
+                              return Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(200, 6, 5, 5),
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(color: color, width: 1),
+                                ),
+                                child: Text(
+                                  location,
+                                  style: TextStyle(
+                                    fontFamily: 'Inter',
+                                    fontSize: 12,
+                                    color: color,
+                                  ),
+                                ),
+                              );
+                            }).toList()
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        project.title,
+                        style: TextStyle(
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        project.description,
+                        style: TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 14,
+                          color: Color.fromARGB(255, 146, 146, 146),
+                        ),
+                      ),
+                    ),
+                    if (fixedHeight) Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Wrap(
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: project.technologies.map((tech) => Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          margin: const EdgeInsets.only(left: 8, bottom: 8),
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 35, 35, 35),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            tech,
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 161, 161, 161),
+                            ),
+                          ),
+                        )).toList(),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              if (isHovered)
+              Positioned.fill(
+                child: Material(
+                  color: Color.fromARGB(150, 13, 13, 13),
+                  child: Align(
+                    alignment: Alignment(0, -0.25),
+                    child: Icon(Icons.remove_red_eye_sharp),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }
+    );
+  }
+}
+
+class SkillsSection extends StatelessWidget {
+  const SkillsSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final Map<String, List<Map<String, dynamic>>> skillsData = {
+      'Languages & Frameworks': [
+        {'name': 'Flutter', 'icon': 'flutter.svg'},
+        {'name': 'Dart', 'icon': 'dart.svg'},
+        {'name': 'React Native', 'icon': 'react.svg'},
+        {'name': 'TypeScript', 'icon': 'typescript.svg'},
+        {'name': 'JavaScript', 'icon': 'javascript.svg'},
+        {'name': 'HTML', 'icon': 'html.svg'},
+        {'name': 'CSS', 'icon': 'css.svg'},
+        {'name': 'PHP', 'icon': 'php.svg'},
+        {'name': 'Python', 'icon': 'python.svg'},
+        {'name': 'C++', 'icon': 'cplus.svg'},
+        {'name': 'C#', 'icon': 'csharp.svg'},
+        {'name': 'Kotlin', 'icon': 'kotlin.svg'},
+      ],
+      'Backend & Cloud': [
+        {'name': 'Firebase', 'icon': 'firebase.svg'},
+        {'name': 'Supabase', 'icon': 'supabase.svg'},
+        {'name': 'Node.js', 'icon': 'nodejs.svg'},
+        {'name': 'REST APIs', 'icon': 'api.svg'},
+        {'name': 'Google Cloud', 'icon': 'google_cloud.svg'},
+        {'name': 'SQL Lite', 'icon': 'sqlLite.svg'},
+        {'name': 'CloudFlare', 'icon': 'cloudflare.svg'},
+      ],
+      'Tools & Workflow': [
+        {'name': 'Git & Github', 'icon': 'github.svg'},
+        {'name': 'Figma', 'icon': 'figma.svg'},
+        {'name': 'CI/CD', 'icon': 'ci_cd.svg'},
+        {'name': 'Docker', 'icon': 'docker.svg'},
+      ],
+    };
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 40.0),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 1500),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: ShaderMask(
+                blendMode: BlendMode.srcIn,
+                shaderCallback: (bounds) => const LinearGradient(
+                  colors: [
+                    Colors.white,
+                    Colors.white,
+                    Color.fromARGB(255, 116, 233, 206),
+                    Colors.tealAccent,
+                    Color(0xFF60A5FA),
+                  ],
+                  stops: [0.0, 0.2, 0.5, 0.7, 1.0],
+                ).createShader(bounds),
+                child: const Text(
+                  'Skills',
+                  style: TextStyle(
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w900,
+                    fontSize: 56,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 30),
+            ...skillsData.entries.map((entry) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 24.0),
+                child: CrossAxisAlignment.start == CrossAxisAlignment.start 
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        entry.key,
+                        style: const TextStyle(
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          color: Color.fromARGB(255, 146, 146, 146),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: entry.value.map((skill) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 17, 17, 17),
+                              border: Border.all(
+                                color: const Color.fromARGB(255, 35, 35, 35),
+                                width: 1,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              spacing: 10,
+                              children: [
+                                SvgPicture.asset(
+                                  'icons/${skill['icon']}',
+                                  width: 24,
+                                  height: 24,
+                                ),
+                                Text(
+                                  skill['name'] as String,
+                                  style: const TextStyle(
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  )
+                : const SizedBox.shrink(),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+  }
 }
