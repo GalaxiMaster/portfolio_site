@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:portfiolio_website/dot_background.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:portfiolio_website/models/projects_details.dart';
+import 'package:portfiolio_website/tools.dart';
 import 'package:url_launcher/link.dart';
 
 class HomePage extends StatefulWidget {
@@ -57,91 +60,108 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(height: 30),
           SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 300),
-                child: Column(
-                  children: [
-                    ShaderMask(
-                      blendMode: BlendMode.srcIn,
-                      shaderCallback: (bounds) => LinearGradient(
-                          colors: const [
-                            Colors.white,
-                            Colors.white,
-                            Colors.white,
-                            Color.fromARGB(255, 116, 233, 206),
-                            Colors.tealAccent,
-                            Color(0xFF60A5FA),
-                          ],
-                          stops: const [0.0, 0.1, 0.4, 0.6, 0.7, 1.0],
-                      ).createShader(bounds),
-                      child: Text(
-                        'Projects',
-                        style: TextStyle(
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w900,
-                          fontSize: 56,
-                          color: Colors.white,
-                        ),
-                      ),
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ShaderMask(
+                  blendMode: BlendMode.srcIn,
+                  shaderCallback: (bounds) => LinearGradient(
+                    colors: const [
+                      Colors.white,
+                      Colors.white,
+                      Colors.white,
+                      Color.fromARGB(255, 116, 233, 206),
+                      Colors.tealAccent,
+                      Color(0xFF60A5FA),
+                    ],
+                    stops: const [0.0, 0.1, 0.4, 0.6, 0.7, 1.0],
+                  ).createShader(bounds),
+                  child: Text(
+                    'Projects',
+                    style: TextStyle(
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w900,
+                      fontSize: 56,
+                      color: Colors.white,
                     ),
-                    GridView.builder(
-                      itemCount: projectsList.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 4,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                      ),
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => Container(
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 17, 17, 17),
-                          border: Border.all(color: Color.fromARGB(255, 35, 35, 35), width: 1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                              child: SizedBox(
-                                height: 175,
-                                child: Expanded(
-                                  child: Image.asset(projectsList[index].imageUrl, height: 100, fit: BoxFit.fill)
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              projectsList[index].title,
-                              style: TextStyle(
-                                fontFamily: 'Inter',
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18,
-                                color: Colors.white,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                projectsList[index].description,
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontSize: 14,
-                                  color: Color.fromARGB(255, 146, 146, 146),
-                                ),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            )
-                          ]
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                  child: Expanded(
+                    child: Center(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: 1500),
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            final int columns = (constraints.maxWidth / 400).floor().clamp(1, 3);
+                            final double cardWidth = (constraints.maxWidth - (columns - 1) * 10) / columns;
+                            final imageHeight = cardWidth * 9 / 16;
+                            final double? cardHeight = columns > 1 
+                              ? projectsList.map((p) => measureTextHeight(p.description, TextStyle(fontFamily: 'Inter', fontSize: 14), cardWidth - 16) + 70).reduce(max) + imageHeight
+                              : null;
+                            return Wrap(
+                              spacing: 10,
+                              runSpacing: 10,
+                              children: projectsList.map((project) {
+                                return SizedBox(
+                                  width: cardWidth,
+                                  height: cardHeight,
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 17, 17, 17),
+                                      border: Border.all(color: Color.fromARGB(255, 35, 35, 35), width: 1),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                                          child: Image.asset(
+                                            project.imageUrl,
+                                            width: double.infinity,
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                          child: Text(
+                                            project.title,
+                                            style: TextStyle(
+                                              fontFamily: 'Inter',
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            project.description,
+                                            style: TextStyle(
+                                              fontFamily: 'Inter',
+                                              fontSize: 14,
+                                              color: Color.fromARGB(255, 146, 146, 146),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            );
+                          },
                         )
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ],

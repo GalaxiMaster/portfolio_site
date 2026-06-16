@@ -31,7 +31,7 @@ final projectsList = [
   ),
   ProjectDetails(
     title: 'Wordini',
-    description: 'Wordini was developed to solve a specific gap in vocabulary retention for students at Smart Space Tutoring. While most flashcard apps are generic, Wordini uses AI to provide contextual definition recognition, ensuring students aren\'t just memorizing words, but understanding their usage.',
+    description: 'Wordini uses AI to close the gap in vocabulary retention. Instead of encouraging rote memorization, it tests contextual word usage to build true understanding.',
     imageUrl: 'assets/screenshots/wordini_screenshot.png',
     technologies: ['Flutter', 'Dart', 'Firebase', 'OpenAI', 'Cloudflare'],
     publishedLocations: ['GitHub', 'Android', 'iOS'],
