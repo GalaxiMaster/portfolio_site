@@ -99,7 +99,13 @@ class _HomePageState extends State<HomePage> {
                             final double cardWidth = (constraints.maxWidth - (columns - 1) * 10) / columns;
                             final imageHeight = cardWidth * 9 / 16;
                             final double? cardHeight = columns > 1 
-                              ? projectsList.map((p) => measureTextHeight(p.description, TextStyle(fontFamily: 'Inter', fontSize: 14), cardWidth - 16) + 70).reduce(max) + imageHeight
+                              ? projectsList.map(
+                                (p) => measureTextHeight(
+                                  p.description, 
+                                  TextStyle(fontFamily: 'Inter', fontSize: 14), 
+                                  cardWidth - 16
+                                ) + 70 + 50
+                              ).reduce(max) + imageHeight
                               : null;
                             return Wrap(
                               spacing: 10,
@@ -118,12 +124,48 @@ class _HomePageState extends State<HomePage> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        ClipRRect(
-                                          borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                                          child: Image.asset(
-                                            project.imageUrl,
-                                            width: double.infinity,
-                                          ),
+                                        Stack(
+                                          children: [
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                                              child: Image.asset(
+                                                project.imageUrl,
+                                                width: double.infinity,
+                                              ),
+                                            ),
+                                            Positioned(
+                                              top: 8,
+                                              left: 8,
+                                              child: Row(
+                                                spacing: 6,
+                                                children: project.publishedLocations.map((location) {
+                                                  final color = switch(location.toLowerCase()) {
+                                                    'web' => Color.fromARGB(255, 158, 110, 205),
+                                                    'desktop' => Color.fromARGB(255, 96, 173, 247),
+                                                    'android' => Color.fromARGB(255, 67, 190, 111),
+                                                    'ios' => Color.fromARGB(255, 168, 174, 246),
+                                                    _ => Color.fromARGB(255, 35, 35, 35),
+                                                  };
+                                                  return Container(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                                    decoration: BoxDecoration(
+                                                      color: Color.fromARGB(200, 6, 5, 5),
+                                                      borderRadius: BorderRadius.circular(6),
+                                                      border: Border.all(color: color, width: 1),
+                                                    ),
+                                                    child: Text(
+                                                      location,
+                                                      style: TextStyle(
+                                                        fontFamily: 'Inter',
+                                                        fontSize: 12,
+                                                        color: color,
+                                                      ),
+                                                    ),
+                                                  );
+                                                }).toList()
+                                              ),
+                                            )
+                                          ],
                                         ),
                                         SizedBox(height: 10),
                                         Padding(
@@ -149,6 +191,30 @@ class _HomePageState extends State<HomePage> {
                                             ),
                                           ),
                                         ),
+                                        Spacer(),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Wrap(
+                                            spacing: 6,
+                                            runSpacing: 6,
+                                            children: project.technologies.map((tech) => Container(
+                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                              margin: const EdgeInsets.only(left: 8, bottom: 8),
+                                              decoration: BoxDecoration(
+                                                color: Color.fromARGB(255, 35, 35, 35),
+                                                borderRadius: BorderRadius.circular(6),
+                                              ),
+                                              child: Text(
+                                                tech,
+                                                style: TextStyle(
+                                                  fontFamily: 'Inter',
+                                                  fontSize: 14,
+                                                  color: Color.fromARGB(255, 161, 161, 161),
+                                                ),
+                                              ),
+                                            )).toList(),
+                                          ),
+                                        )
                                       ],
                                     ),
                                   ),
