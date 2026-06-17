@@ -14,6 +14,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey _projectsKey = GlobalKey();
+
+  void _scrollToSection(GlobalKey key) {
+    final context = key.currentContext;
+    if (context != null) {
+      Scrollable.ensureVisible(
+        context,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -38,7 +50,9 @@ class _HomePageState extends State<HomePage> {
                         spacing: 10,
                         children: [
                           actionTextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              _scrollToSection(_projectsKey);
+                            },
                             text: 'View My Work',
                             icon: Icons.arrow_forward,
                           ),
@@ -59,6 +73,7 @@ class _HomePageState extends State<HomePage> {
           ),
           SizedBox(height: 30),
           SizedBox(
+            key: _projectsKey,
             width: MediaQuery.of(context).size.width,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
