@@ -280,7 +280,7 @@ class ProjectTile extends StatelessWidget {
               builder: (context) => Dialog(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 backgroundColor: Color.fromARGB(255, 13, 13, 13),
-                child: ProjectPageState(project: project,)
+                child: ProjectPage(project: project,)
               ),
             );
           },
