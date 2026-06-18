@@ -1,8 +1,11 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:portfiolio_website/dot_background.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:portfiolio_website/models/skillsData.dart';
 import 'package:portfiolio_website/models/projects_details.dart';
+import 'package:portfiolio_website/pages/project_page.dart';
 import 'package:portfiolio_website/tools.dart';
 import 'package:web/web.dart' as web;
 
@@ -93,8 +96,7 @@ class _HomePageState extends State<HomePage> {
                   ).createShader(bounds),
                   child: Text(
                     'Projects',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
+                    style: GoogleFonts.inter(
                       fontWeight: FontWeight.w900,
                       fontSize: 56,
                       color: Colors.white,
@@ -114,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                           ? projectsList.map(
                             (p) => measureTextHeight(
                               p.description, 
-                              TextStyle(fontFamily: 'Inter', fontSize: 14), 
+                              GoogleFonts.inter(fontSize: 14), 
                               cardWidth - 16
                             ) + 70 + measureTagsHeight(p.technologies, cardWidth - 16)
                           ).reduce(max) + imageHeight
@@ -152,8 +154,7 @@ class _HomePageState extends State<HomePage> {
       children: [
         Text(
           '— Find me on:',
-          style: TextStyle(
-            fontFamily: 'Inter',
+          style: GoogleFonts.inter(
             fontSize: 16,
             color: Color.fromARGB(255, 146, 146, 146),
           ),
@@ -217,8 +218,7 @@ class _HomePageState extends State<HomePage> {
         children: [
           Text(
             text,
-            style: TextStyle(
-              fontFamily: 'Inter',
+            style: GoogleFonts.inter(
               fontSize: 18,
               color: Colors.white, // base color required
             ),
@@ -247,8 +247,7 @@ class _HomePageState extends State<HomePage> {
         ).createShader(bounds),
         child: Text(
           'Hi, I\'m \nDylan',
-          style: TextStyle(
-            fontFamily: 'Inter',
+          style: GoogleFonts.inter(
             fontWeight: FontWeight.w900,
             fontSize: 56,
             color: Colors.white, // base color required
@@ -274,126 +273,135 @@ class ProjectTile extends StatelessWidget {
     return ValueListenableBuilder<bool>(
       valueListenable: _isHovered,
       builder: (context, isHovered, child) {
-        return MouseRegion(
-          onHover: (event) => _isHovered.value = true,
-          onExit: (event) => _isHovered.value = false,
-          child: Stack(
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 17, 17, 17),
-                  border: Border.all(color: Color.fromARGB(255, 35, 35, 35), width: 1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                          child: Image.asset(
-                            project.imageUrl,
-                            width: double.infinity,
-                          ),
-                        ),
-                        Positioned(
-                          top: 8,
-                          left: 8,
-                          child: Row(
-                            spacing: 6,
-                            children: project.publishedLocations.map((location) {
-                              final color = switch(location.toLowerCase()) {
-                                'web' => Color.fromARGB(255, 158, 110, 205),
-                                'desktop' => Color.fromARGB(255, 96, 173, 247),
-                                'android' => Color.fromARGB(255, 67, 190, 111),
-                                'ios' => Color.fromARGB(255, 168, 174, 246),
-                                _ => Color.fromARGB(255, 35, 35, 35),
-                              };
-                              return Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: Color.fromARGB(200, 6, 5, 5),
-                                  borderRadius: BorderRadius.circular(6),
-                                  border: Border.all(color: color, width: 1),
-                                ),
-                                child: Text(
-                                  location,
-                                  style: TextStyle(
-                                    fontFamily: 'Inter',
-                                    fontSize: 12,
-                                    color: color,
-                                  ),
-                                ),
-                              );
-                            }).toList()
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        project.title,
-                        style: TextStyle(
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        project.description,
-                        style: TextStyle(
-                          fontFamily: 'Inter',
-                          fontSize: 14,
-                          color: Color.fromARGB(255, 146, 146, 146),
-                        ),
-                      ),
-                    ),
-                    if (fixedHeight) Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Wrap(
-                        spacing: 6,
-                        runSpacing: 6,
-                        children: project.technologies.map((tech) => Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                          margin: const EdgeInsets.only(left: 8, bottom: 8),
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 35, 35, 35),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                          child: Text(
-                            tech,
-                            style: TextStyle(
-                              fontFamily: 'Inter',
-                              fontSize: 14,
-                              color: Color.fromARGB(255, 161, 161, 161),
+        return GestureDetector(
+          onTap: () {
+            showDialog(
+              context: context,
+              builder: (context) => Dialog(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                backgroundColor: Color.fromARGB(255, 13, 13, 13),
+                child: ProjectPageState(project: project,)
+              ),
+            );
+          },
+          child: MouseRegion(
+            onHover: (event) => _isHovered.value = true,
+            onExit: (event) => _isHovered.value = false,
+            cursor: SystemMouseCursors.click,
+            child: Stack(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 17, 17, 17),
+                    border: Border.all(color: Color.fromARGB(255, 35, 35, 35), width: 1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                            child: Image.asset(
+                              project.imageUrl,
+                              width: double.infinity,
                             ),
                           ),
-                        )).toList(),
+                          Positioned(
+                            top: 8,
+                            left: 8,
+                            child: Row(
+                              spacing: 6,
+                              children: project.publishedLocations.map((location) {
+                                final color = switch(location.toLowerCase()) {
+                                  'web' => Color.fromARGB(255, 158, 110, 205),
+                                  'desktop' => Color.fromARGB(255, 96, 173, 247),
+                                  'android' => Color.fromARGB(255, 67, 190, 111),
+                                  'ios' => Color.fromARGB(255, 168, 174, 246),
+                                  _ => Color.fromARGB(255, 35, 35, 35),
+                                };
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: Color.fromARGB(200, 6, 5, 5),
+                                    borderRadius: BorderRadius.circular(6),
+                                    border: Border.all(color: color, width: 1),
+                                  ),
+                                  child: Text(
+                                    location,
+                                    style: GoogleFonts.inter(
+                                      fontSize: 12,
+                                      color: color,
+                                    ),
+                                  ),
+                                );
+                              }).toList()
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
-              ),
-              if (isHovered)
-              Positioned.fill(
-                child: Material(
-                  color: Color.fromARGB(150, 13, 13, 13),
-                  child: Align(
-                    alignment: Alignment(0, -0.25),
-                    child: Icon(Icons.remove_red_eye_sharp),
+                      SizedBox(height: 10),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          project.title,
+                          style: GoogleFonts.inter(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          project.description,
+                          style: GoogleFonts.inter(
+                            fontSize: 14,
+                            color: Color.fromARGB(255, 146, 146, 146),
+                          ),
+                        ),
+                      ),
+                      if (fixedHeight) Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Wrap(
+                          spacing: 6,
+                          runSpacing: 6,
+                          children: project.technologies.map((tech) => Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            margin: const EdgeInsets.only(left: 8, bottom: 8),
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 35, 35, 35),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              tech,
+                              style: GoogleFonts.inter(
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 161, 161, 161),
+                              ),
+                            ),
+                          )).toList(),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-              ),
-            ],
+                if (isHovered)
+                Positioned.fill(
+                  child: Material(
+                    color: Color.fromARGB(150, 13, 13, 13),
+                    child: Align(
+                      alignment: Alignment(0, -0.25),
+                      child: Icon(Icons.remove_red_eye_sharp),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       }
@@ -406,38 +414,6 @@ class SkillsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, List<Map<String, dynamic>>> skillsData = {
-      'Languages & Frameworks': [
-        {'name': 'Flutter', 'icon': 'flutter.svg'},
-        {'name': 'Dart', 'icon': 'dart.svg'},
-        {'name': 'React Native', 'icon': 'react.svg'},
-        {'name': 'TypeScript', 'icon': 'typescript.svg'},
-        {'name': 'JavaScript', 'icon': 'javascript.svg'},
-        {'name': 'HTML', 'icon': 'html.svg'},
-        {'name': 'CSS', 'icon': 'css.svg'},
-        {'name': 'PHP', 'icon': 'php.svg'},
-        {'name': 'Python', 'icon': 'python.svg'},
-        {'name': 'C++', 'icon': 'cplus.svg'},
-        {'name': 'C#', 'icon': 'csharp.svg'},
-        {'name': 'Kotlin', 'icon': 'kotlin.svg'},
-      ],
-      'Backend & Cloud': [
-        {'name': 'Firebase', 'icon': 'firebase.svg'},
-        {'name': 'Supabase', 'icon': 'supabase.svg'},
-        {'name': 'Node.js', 'icon': 'nodejs.svg'},
-        {'name': 'REST APIs', 'icon': 'api.svg'},
-        {'name': 'Google Cloud', 'icon': 'google_cloud.svg'},
-        {'name': 'SQL Lite', 'icon': 'sqlLite.svg'},
-        {'name': 'CloudFlare', 'icon': 'cloudflare.svg'},
-      ],
-      'Tools & Workflow': [
-        {'name': 'Git & Github', 'icon': 'github.svg'},
-        {'name': 'Figma', 'icon': 'figma.svg'},
-        {'name': 'CI/CD', 'icon': 'ci_cd.svg'},
-        {'name': 'Docker', 'icon': 'docker.svg'},
-      ],
-    };
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 40.0),
       child: ConstrainedBox(
@@ -458,10 +434,9 @@ class SkillsSection extends StatelessWidget {
                   ],
                   stops: [0.0, 0.2, 0.5, 0.7, 1.0],
                 ).createShader(bounds),
-                child: const Text(
+                child: Text(
                   'Skills',
-                  style: TextStyle(
-                    fontFamily: 'Inter',
+                  style: GoogleFonts.inter(
                     fontWeight: FontWeight.w900,
                     fontSize: 56,
                     color: Colors.white,
@@ -479,8 +454,7 @@ class SkillsSection extends StatelessWidget {
                     children: [
                       Text(
                         entry.key,
-                        style: const TextStyle(
-                          fontFamily: 'Inter',
+                        style:  GoogleFonts.inter(
                           fontWeight: FontWeight.w600,
                           fontSize: 18,
                           color: Color.fromARGB(255, 146, 146, 146),
@@ -512,8 +486,7 @@ class SkillsSection extends StatelessWidget {
                                 ),
                                 Text(
                                   skill['name'] as String,
-                                  style: const TextStyle(
-                                    fontFamily: 'Inter',
+                                  style: GoogleFonts.inter(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
                                     color: Colors.white,

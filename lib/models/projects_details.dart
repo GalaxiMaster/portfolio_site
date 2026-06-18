@@ -33,7 +33,7 @@ final projectsList = [
     title: 'Wordini',
     description: 'Wordini uses AI to close the gap in vocabulary retention. Instead of encouraging rote memorization, it tests contextual word usage to build true understanding.',
     imageUrl: 'assets/screenshots/wordini_screenshot.png',
-    technologies: ['Flutter', 'Dart', 'Firebase', 'OpenAI', 'Cloudflare'],
+    technologies: ['Flutter', 'Dart', 'Firebase', 'OpenAI', 'CloudFlare'],
     publishedLocations: ['Android', 'iOS'],
   ),
   ProjectDetails(

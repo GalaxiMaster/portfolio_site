@@ -1,0 +1,32 @@
+    final Map<String, List<Map<String, dynamic>>> skillsData = {
+      'Languages & Frameworks': [
+        {'name': 'Flutter', 'icon': 'flutter.svg'},
+        {'name': 'Dart', 'icon': 'dart.svg'},
+        {'name': 'React Native', 'icon': 'react.svg'},
+        {'name': 'TypeScript', 'icon': 'typescript.svg'},
+        {'name': 'JavaScript', 'icon': 'javascript.svg'},
+        {'name': 'HTML', 'icon': 'html.svg'},
+        {'name': 'CSS', 'icon': 'css.svg'},
+        {'name': 'PHP', 'icon': 'php.svg'},
+        {'name': 'Python', 'icon': 'python.svg'},
+        {'name': 'C++', 'icon': 'cplus.svg'},
+        {'name': 'C#', 'icon': 'csharp.svg'},
+        {'name': 'Kotlin', 'icon': 'kotlin.svg'},
+      ],
+      'Backend & Cloud': [
+        {'name': 'Firebase', 'icon': 'firebase.svg'},
+        {'name': 'Supabase', 'icon': 'supabase.svg'},
+        {'name': 'Node.js', 'icon': 'nodejs.svg'},
+        {'name': 'REST APIs', 'icon': 'api.svg'},
+        {'name': 'Google Cloud', 'icon': 'google_cloud.svg'},
+        {'name': 'SQL Lite', 'icon': 'sqlLite.svg'},
+        {'name': 'CloudFlare', 'icon': 'cloudflare.svg'},
+        {'name': 'OpenAI', 'icon': 'openai.svg'},
+      ],
+      'Tools & Workflow': [
+        {'name': 'Git & Github', 'icon': 'github.svg'},
+        {'name': 'Figma', 'icon': 'figma.svg'},
+        {'name': 'CI/CD', 'icon': 'ci_cd.svg'},
+        {'name': 'Docker', 'icon': 'docker.svg'},
+      ],
+    };
