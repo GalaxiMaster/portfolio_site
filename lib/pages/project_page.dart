@@ -5,6 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfiolio_website/models/projects_details.dart';
 import 'package:portfiolio_website/models/skillsData.dart';
+import 'package:portfiolio_website/widget.dart';
+import 'package:web/web.dart' as web;
 
 class ProjectPage extends StatelessWidget {
   final ProjectDetails project;
@@ -17,7 +19,7 @@ class ProjectPage extends StatelessWidget {
 
     return SizedBox(
       width: width * (isWide ? 0.7 :  0.9),
-      height: MediaQuery.of(context).size.height * (isWide ? 0.7 :  0.9),
+      height: MediaQuery.of(context).size.height * (isWide ? 0.75 :  0.9),
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(32),
         child: isWide ? _wideLayout(width * 0.7) : _narrowLayout(),
@@ -181,7 +183,8 @@ class ProjectPage extends StatelessWidget {
       width: 320,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF232323),
+        color: Color.fromARGB(255, 17, 17, 17),
+        border: Border.all(color: Color.fromARGB(255, 35, 35, 35), width: 1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -192,7 +195,53 @@ class ProjectPage extends StatelessWidget {
             color: Colors.white,
           )),
           const SizedBox(height: 8),
-          // your links here
+          ...project.publishedLocations.map((loc) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: GestureDetector(
+                onTap: () => web.window.open(loc.link, '_blank'),
+                child: Hoverable(
+                  builder: (isHovered) => AnimatedContainer(
+                    duration: Duration(milliseconds: 200),
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 26, 26, 26),
+                      border: Border.all(color: isHovered ?  Color.fromARGB(255, 100, 100, 100) : Color.fromARGB(255, 45, 45, 45), width: 1),
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SvgPicture.asset(
+                            'icons/${storeMap[loc.name]}.svg',
+                            width: 40,
+                            height: 40,
+                          ),
+                        ),
+                        Text(
+                          loc.name,
+                          style: TextStyle(
+                            fontSize: 18
+                          ),
+                        ),
+                        Spacer(),
+                        AnimatedSlide(
+                          offset: Offset(isHovered ? 0.05 : 0, isHovered ? -0.05 : 0),
+                          duration: Duration(milliseconds: 100),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.open_in_new),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              )
+            );
+          })
         ],
       ),
     );

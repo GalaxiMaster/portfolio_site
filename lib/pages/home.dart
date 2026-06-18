@@ -314,8 +314,8 @@ class ProjectTile extends StatelessWidget {
                             left: 8,
                             child: Row(
                               spacing: 6,
-                              children: project.publishedLocations.map((location) {
-                                final color = switch(location.toLowerCase()) {
+                              children: project.publishedLocations.where((el) => el.display).map((location) {
+                                final color = switch(location.name.toLowerCase()) {
                                   'web' => Color.fromARGB(255, 158, 110, 205),
                                   'desktop' => Color.fromARGB(255, 96, 173, 247),
                                   'android' => Color.fromARGB(255, 67, 190, 111),
@@ -330,7 +330,7 @@ class ProjectTile extends StatelessWidget {
                                     border: Border.all(color: color, width: 1),
                                   ),
                                   child: Text(
-                                    location,
+                                    location.name,
                                     style: GoogleFonts.inter(
                                       fontSize: 12,
                                       color: color,
