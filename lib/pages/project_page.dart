@@ -157,6 +157,7 @@ class ProjectPage extends StatelessWidget {
             fontSize: 16,
           ),
         ),
+        SizedBox(height: 16,),
         Padding(
           padding: const EdgeInsets.only(left: 8),
           child: Text(
@@ -167,6 +168,48 @@ class ProjectPage extends StatelessWidget {
             ),
           ),
         ),
+        ...project.keyFeatures.map((feature) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 17, 17, 17),
+              border: Border.all(color: Color.fromARGB(255, 35, 35, 35), width: 1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 10,
+                children: [
+                  Row(
+                    spacing: 10,
+                    children: [
+                      Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(200, 127, 198, 255),
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: Icon(
+                          Icons.check,
+                          size: 16,
+                        ),
+                      ),
+                      Text(
+                        feature.split(':').first,
+                        style: TextStyle(fontSize: 18),
+                      )
+                    ],
+                  ),
+                  Text(feature.split(':').last),
+                  SizedBox()
+                ],
+              ),
+            ),
+          ),
+        ))
       ],
     );
   }

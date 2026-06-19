@@ -4,15 +4,18 @@ class ProjectDetails {
   final String imageUrl;
   final List<String> technologies;
   final List<StoreItem> publishedLocations;
+  final List<String> keyFeatures;
 
   ProjectDetails({
     required this.title,
     required this.description,
     required this.imageUrl,
     required this.technologies, 
-    required this.publishedLocations,
+    required this.publishedLocations, 
+    required this.keyFeatures,
   });
 }
+
 class StoreItem {
   final String name;
   final String link;
@@ -41,6 +44,11 @@ final projectsList = [
         name: 'Web',
         link: ''
       ),
+    ], 
+    keyFeatures: [
+      'Responsive Layout: Fully optimized user experience across mobile, tablet, and desktop viewports.',
+      'Interactive Showcase: Dedicated sections demonstrating project architecture, technical skill sets, and professional experience.',
+      'Single-Codebase Deployment: Developed using Flutter to target web-based hosting platforms efficiently from a unified architectural foundation.',
     ],
   ),
   ProjectDetails(
@@ -58,6 +66,11 @@ final projectsList = [
         name: 'Desktop',
         link: 'https://github.com/GalaxiMaster/photo_sync/releases/tag/Alpha_v0.1',
       ),
+    ], 
+    keyFeatures: [
+      'Immich Integration: Serves as a desktop client to view and modify Immich-hosted media files seamlessly.',
+      'Local & External Storage Handling: Syncs and manages media between local directories, connected hardware devices, and cloud storage.',
+      'Cross-Platform Desktop Compilation: Tailored performance profiles targeting desktop OS layers to manipulate local file systems with native efficiency.',
     ],
   ),
   ProjectDetails(
@@ -79,6 +92,11 @@ final projectsList = [
         name: 'iOS',
         link: 'https://apps.apple.com/au/app/wordini/id6747973066'
       ),
+    ], 
+    keyFeatures: [
+      'AI-Driven Contextual Testing: Deploys OpenAI models to evaluate real-time vocabulary usage instead of static rote memorization.',
+      'Cross-Platform Cloud Sync: Utilizes Firebase and Cloudflare to ensure secure user authentication.',
+      'Production-Grade App Store Releases: Fully deployed and optimized production distributions across Google Play and Apple App Store pipelines.',
     ],
   ),
   ProjectDetails(
@@ -96,6 +114,11 @@ final projectsList = [
         name: 'Android',
         link: 'https://play.google.com/store/apps/details?id=com.DylanJ.exercise_app'
       ),
+    ], 
+    keyFeatures: [
+      'Workout Tracking: Enables users to input their workouts data and view historical data at a glance',
+      'Routine Management: Allows users to build, modify, and execute custom fitness schedules with cross device sync.',
+      'Real-Time Backend Persistence: Leverages Firebase infrastructure for immediate synchronization of user training records and session histories.',
     ],
   ),
   ProjectDetails(
@@ -117,6 +140,11 @@ final projectsList = [
         name: 'Web',
         link: 'https://social-calendar-checker.vercel.app/'
       ),
+    ], 
+    keyFeatures: [
+      'Schedule Intersection Engine: Automatically correlates multiple calendar data structures to compute optimal, overlapping free time windows.',
+      'Social Networking Graph: Built-in friend management system powered by Supabase for secure data access and real-time synchronization.',
+      'Hybrid Deployment Matrix: Simultaneous distribution across Android environments and web ecosystems via Vercel hosting.',
     ],
   ),
   ProjectDetails(
@@ -134,6 +162,11 @@ final projectsList = [
         name: 'Android',
         link: 'https://github.com/GalaxiMaster/gooberNet/releases/tag/Alpha_v0.1'
       ),
+    ], 
+    keyFeatures: [
+      'Media Hosting & Streaming: Utilizes Cloudflare R2 object storage to handle high-bandwidth photo and video uploads and deliveries.',
+      'Social Feed Core: Feature-complete private social network mechanics including user feeds, media sharing, and storage scaling.',
+      'Secure Private Infrastructure: Architected exclusively for credentialed peer groups to isolate media delivery from public exposure.',
     ],
   ),
 ];
