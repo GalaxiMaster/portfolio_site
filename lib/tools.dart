@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 double measureTextHeight(String text, TextStyle style, double maxWidth) {
@@ -30,4 +32,17 @@ double measureTagsHeight(List<String> technologies, double cardWidth) {
   }
 
   return totalHeight + 25; // bottom padding
+}
+
+double responsiveLeft(BuildContext context) {
+  final width = MediaQuery.of(context).size.width;
+  const minWidth = 600;
+  const maxWidth = 800.0;
+
+  final t = ((width - minWidth) / (maxWidth - minWidth)).clamp(0.0, 1.0);
+
+  final centeredLeft = width / 2;
+  final desktopLeft = width / 6 * 4;
+
+  return lerpDouble(centeredLeft, desktopLeft, t)!;
 }

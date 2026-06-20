@@ -31,120 +31,118 @@ class _HomePageState extends State<HomePage> {
   }
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: DotGridBackground(
-              highlightColor: Colors.tealAccent,
-              hoverRadius: 160,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildNameText(),
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        spacing: 10,
-                        children: [
-                          actionTextButton(
-                            onPressed: () {
-                              _scrollToSection(_projectsKey);
-                            },
-                            text: 'View My Work',
-                            icon: Icons.arrow_forward,
-                          ),
-                          actionTextButton(
-                            onPressed: () {},
-                            text: 'Contact Me',
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      _buildContactRow(),
-                    ],
-                  ),
-                  SizedBox(width: 500),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 30),
-          SizedBox(
-            key: _projectsKey,
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+    return Column(
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.height,
+          child: DotGridBackground(
+            highlightColor: Colors.tealAccent,
+            hoverRadius: 160,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ShaderMask(
-                  blendMode: BlendMode.srcIn,
-                  shaderCallback: (bounds) => LinearGradient(
-                    colors: const [
-                      Colors.white,
-                      Colors.white,
-                      Colors.white,
-                      Color.fromARGB(255, 116, 233, 206),
-                      Colors.tealAccent,
-                      Color(0xFF60A5FA),
-                    ],
-                    stops: const [0.0, 0.1, 0.4, 0.6, 0.7, 1.0],
-                  ).createShader(bounds),
-                  child: Text(
-                    'Projects',
-                    style: GoogleFonts.inter(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 56,
-                      color: Colors.white,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildNameText(),
+                    SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 10,
+                      children: [
+                        actionTextButton(
+                          onPressed: () {
+                            _scrollToSection(_projectsKey);
+                          },
+                          text: 'View My Work',
+                          icon: Icons.arrow_forward,
+                        ),
+                        actionTextButton(
+                          onPressed: () {},
+                          text: 'Contact Me',
+                        )
+                      ],
                     ),
-                  ),
+                    SizedBox(height: 20),
+                    _buildContactRow(),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: 1500),
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        final int columns = (constraints.maxWidth / 400).floor().clamp(1, 3);
-                        final double cardWidth = (constraints.maxWidth - columns * 10) / columns;
-                        final imageHeight = cardWidth * 9 / 16;
-                        final double? cardHeight = columns > 1 
-                          ? projectsList.map(
-                            (p) => measureTextHeight(
-                              p.description, 
-                              GoogleFonts.inter(fontSize: 14), 
-                              cardWidth - 16
-                            ) + 70 + measureTagsHeight(p.technologies, cardWidth - 16)
-                          ).reduce(max) + imageHeight
-                          : null;
-                        return Wrap(
-                          spacing: 10,
-                          runSpacing: 10,
-                          children: projectsList.map((project) {
-                            return SizedBox(
-                              width: cardWidth,
-                              height: cardHeight,
-                              child: ProjectTile(
-                                project: project,
-                                fixedHeight: cardHeight != null,
-                              ),
-                            );
-                          }).toList(),
-                        );
-                      },
-                    )
-                  ),
-                ),
+                SizedBox(width: 500),
               ],
             ),
           ),
-          SkillsSection(),
-        ],
-      ),
+        ),
+        SizedBox(height: 30),
+        SizedBox(
+          key: _projectsKey,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ShaderMask(
+                blendMode: BlendMode.srcIn,
+                shaderCallback: (bounds) => LinearGradient(
+                  colors: const [
+                    Colors.white,
+                    Colors.white,
+                    Colors.white,
+                    Color.fromARGB(255, 116, 233, 206),
+                    Colors.tealAccent,
+                    Color(0xFF60A5FA),
+                  ],
+                  stops: const [0.0, 0.1, 0.4, 0.6, 0.7, 1.0],
+                ).createShader(bounds),
+                child: Text(
+                  'Projects',
+                  style: GoogleFonts.inter(
+                    fontWeight: FontWeight.w900,
+                    fontSize: 56,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: 1500),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final int columns = (constraints.maxWidth / 400).floor().clamp(1, 3);
+                      final double cardWidth = (constraints.maxWidth - columns * 10) / columns;
+                      final imageHeight = cardWidth * 9 / 16;
+                      final double? cardHeight = columns > 1 
+                        ? projectsList.map(
+                          (p) => measureTextHeight(
+                            p.description, 
+                            GoogleFonts.inter(fontSize: 14), 
+                            cardWidth - 16
+                          ) + 70 + measureTagsHeight(p.technologies, cardWidth - 16)
+                        ).reduce(max) + imageHeight
+                        : null;
+                      return Wrap(
+                        spacing: 10,
+                        runSpacing: 10,
+                        children: projectsList.map((project) {
+                          return SizedBox(
+                            width: cardWidth,
+                            height: cardHeight,
+                            child: ProjectTile(
+                              project: project,
+                              fixedHeight: cardHeight != null,
+                            ),
+                          );
+                        }).toList(),
+                      );
+                    },
+                  )
+                ),
+              ),
+            ],
+          ),
+        ),
+        SkillsSection(),
+      ],
     );
   }
 

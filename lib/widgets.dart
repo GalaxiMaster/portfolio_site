@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:portfiolio_website/providers/body_provider.dart';
 
 class Hoverable extends StatefulWidget {
   final Widget Function(bool hovered) builder;
@@ -23,15 +25,14 @@ class _HoverableState extends State<Hoverable> {
 }
 
 
-class AnimatedTabBar extends StatefulWidget {
-  final List<String> tabs;
-  const AnimatedTabBar({super.key, required this.tabs});
+class AnimatedTabBar extends ConsumerStatefulWidget {
+  const AnimatedTabBar({super.key});
 
   @override
-  State<AnimatedTabBar> createState() => _AnimatedTabBarState();
+  ConsumerState<AnimatedTabBar> createState() => _AnimatedTabBarState();
 }
 
-class _AnimatedTabBarState extends State<AnimatedTabBar>
+class _AnimatedTabBarState extends ConsumerState<AnimatedTabBar>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _selectedIndex = 0;
@@ -39,9 +40,12 @@ class _AnimatedTabBarState extends State<AnimatedTabBar>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: widget.tabs.length, vsync: this)
+    _tabController = TabController(length: AppBody.values.length, vsync: this)
       ..addListener(() {
-        setState(() => _selectedIndex = _tabController.index);
+        setState(() {
+          _selectedIndex = _tabController.index;
+          ref.read(appBodyProvider.notifier).switchTo(AppBody.values[_selectedIndex]);
+        });
       });
   }
 
@@ -56,7 +60,7 @@ class _AnimatedTabBarState extends State<AnimatedTabBar>
     final double tabWidth = 70;
 
     return SizedBox(
-      width: (tabWidth + 8) * widget.tabs.length,
+      width: (tabWidth + 8) * AppBody.values.length,
       height: 100,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,10 +68,13 @@ class _AnimatedTabBarState extends State<AnimatedTabBar>
           Stack(
             children: [
               Row(
-                children: List.generate(widget.tabs.length, (i) => Expanded(
+                children: List.generate(AppBody.values.length, (i) => Expanded(
                   child: InkWell(
                     onTap: () => _tabController.animateTo(i),
                     mouseCursor: SystemMouseCursors.click,
+                    splashColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
                     child: Container(
                       width: 50,
                       height: 50,
@@ -80,7 +87,7 @@ class _AnimatedTabBarState extends State<AnimatedTabBar>
                           color: _selectedIndex == i ? Colors.white : Colors.white54,
                           fontSize: _selectedIndex == i ? 16.0 : 15.0,
                         ),
-                        child: Text(widget.tabs[i]),
+                        child: Text(AppBody.values[i].label),
                       ),
                     ),
                   ),

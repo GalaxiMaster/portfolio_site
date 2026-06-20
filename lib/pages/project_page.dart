@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfiolio_website/models/projects_details.dart';
 import 'package:portfiolio_website/models/skillsData.dart';
-import 'package:portfiolio_website/widget.dart';
+import 'package:portfiolio_website/widgets.dart';
 import 'package:web/web.dart' as web;
 
 class ProjectPage extends StatelessWidget {
