@@ -16,6 +16,7 @@ class _ContactPageState extends State<ContactPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController messagingController = TextEditingController();
 
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -35,6 +36,7 @@ class _ContactPageState extends State<ContactPage> {
               ),
               padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
               child: Form(
+                key: _formKey,
                 child: Column(
                   spacing: 20,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -76,6 +78,34 @@ class _ContactPageState extends State<ContactPage> {
                       controller: messagingController, 
                       maxLines: 10
                     ),
+                    GestureDetector(
+                      onTap: () {
+                        _formKey.currentState?.reset();
+                      },
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: InkWell(
+                          child: Container(
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              child: Row(
+                                spacing: 7.5,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text('Send Message'),
+                                  Icon(Icons.send_rounded, size: 18,)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
