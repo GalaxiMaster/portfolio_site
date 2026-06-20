@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:http/http.dart' as http;
 import 'package:portfiolio_website/widgets.dart';
 import 'package:web/web.dart' as web;
 
@@ -58,7 +61,16 @@ class _ContactPageState extends State<ContactPage> {
                             name: 'Name', 
                             hint: 'Jane Doe',
                             icon: Icons.person_outline,
-                            controller: nameController, 
+                            controller: nameController,
+                            validator: (input) {
+                              if (input == null || input.isEmpty) {
+                                return 'Name is required';
+                              }
+                              else if (input.length > 32) {
+                                return 'Name can\'t be more than 32 characters';
+                              }
+                              return null;
+                            }
                           ),
                         ),
                         Expanded(
@@ -66,7 +78,12 @@ class _ContactPageState extends State<ContactPage> {
                             name: 'Email', 
                             hint: 'name@email.com', 
                             icon: Icons.alternate_email,
-                            controller: emailController, 
+                            controller: emailController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) return 'Email is required';
+                              if (!RegExp(r'^[\w.-]+@[\w.-]+\.\w+$').hasMatch(value)) return 'Invalid email';
+                              return null;
+                            },
                           ),
                         ),
                       ],
@@ -80,6 +97,13 @@ class _ContactPageState extends State<ContactPage> {
                     ),
                     GestureDetector(
                       onTap: () {
+                        if (_formKey.currentState?.validate() ?? false) {
+                          submitForm(
+                            nameController.text,
+                            emailController.text,
+                            messagingController.text
+                          );
+                        }
                         _formKey.currentState?.reset();
                       },
                       child: Align(
@@ -154,6 +178,19 @@ class _ContactPageState extends State<ContactPage> {
     );
   }
 
+  Future<bool> submitForm(String name, String email, String message) async {
+    final response = await http.post(
+      Uri.parse('https://portfolio-email.dmj08bot.workers.dev'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'name': name,
+        'email': email,
+        'message': message,
+      }),
+    );
+    return response.statusCode == 200;
+  }
+
   Padding socialBox({
     required String name,
     required String link,
@@ -218,6 +255,7 @@ class _ContactPageState extends State<ContactPage> {
     required String hint,
     required IconData icon,
     required TextEditingController controller,
+    String? Function(String?)? validator,
     int? maxLines
   }) {
     return Column(
@@ -258,6 +296,7 @@ class _ContactPageState extends State<ContactPage> {
             ),
           ), 
           maxLines: maxLines,
+          validator: validator,
         ),
       ],
     );
