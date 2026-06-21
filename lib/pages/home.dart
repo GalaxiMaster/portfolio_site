@@ -188,7 +188,7 @@ class _HomePageState extends State<HomePage> {
             web.window.open('https://mailto:dmj08bot@gmail.com', '_blank');
           },          
           icon: SvgPicture.asset(
-            'icons/email.svg',
+            'assets/icons/email.svg',
             width: 24,
             height: 24,
             colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
