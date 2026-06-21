@@ -219,7 +219,7 @@ class _ContactPageState extends State<ContactPage> {
             ),
             padding: EdgeInsets.all(12),
             child: SvgPicture.asset(
-              'icons/$icon',
+              'assets/icons/$icon',
               colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
             ),
           ),

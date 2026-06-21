@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
             web.window.open('https://github.com/GalaxiMaster/', '_blank');
           },          
           icon: SvgPicture.asset(
-            'icons/github.svg',
+            'assets/icons/github.svg',
             width: 24,
             height: 24,
             colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
@@ -177,7 +177,7 @@ class _HomePageState extends State<HomePage> {
             web.window.open('https://www.linkedin.com/in/dylan-j-3a3637317/', '_blank');
           },
           icon: SvgPicture.asset(
-            'icons/linkedIn.svg',
+            'assets/icons/linkedIn.svg',
             width: 24,
             height: 24,
             colorFilter: ColorFilter.mode(Color.fromARGB(255, 146, 146, 146), BlendMode.srcIn),
@@ -482,7 +482,7 @@ class SkillsSection extends StatelessWidget {
                               spacing: 10,
                               children: [
                                 SvgPicture.asset(
-                                  'icons/${skill['icon']}',
+                                  'assets/icons/${skill['icon']}',
                                   width: 24,
                                   height: 24,
                                 ),
