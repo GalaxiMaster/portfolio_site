@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:portfiolio_website/providers/body_provider.dart';
 
 class Hoverable extends StatefulWidget {
@@ -33,18 +34,19 @@ class AnimatedTabBar extends ConsumerStatefulWidget {
 }
 
 class _AnimatedTabBarState extends ConsumerState<AnimatedTabBar>
-    with SingleTickerProviderStateMixin {
+  with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  int _selectedIndex = 0;
+  late int _selectedIndex =  ref.watch(appBodyProvider).index;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: AppBody.values.length, vsync: this)
+    _tabController = TabController(length: AppPage.values.length, vsync: this)
       ..addListener(() {
         setState(() {
           _selectedIndex = _tabController.index;
-          ref.read(appBodyProvider.notifier).switchTo(AppBody.values[_selectedIndex]);
+          context.go(AppPage.values[_selectedIndex].route);
+          ref.read(appBodyProvider.notifier).switchTo(AppPage.values[_selectedIndex]);
         });
       });
   }
@@ -60,7 +62,7 @@ class _AnimatedTabBarState extends ConsumerState<AnimatedTabBar>
     final double tabWidth = 70;
 
     return SizedBox(
-      width: (tabWidth + 8) * AppBody.values.length,
+      width: (tabWidth + 8) * AppPage.values.length,
       height: 100,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +70,7 @@ class _AnimatedTabBarState extends ConsumerState<AnimatedTabBar>
           Stack(
             children: [
               Row(
-                children: List.generate(AppBody.values.length, (i) => Expanded(
+                children: List.generate(AppPage.values.length, (i) => Expanded(
                   child: InkWell(
                     onTap: () => _tabController.animateTo(i),
                     mouseCursor: SystemMouseCursors.click,
@@ -87,7 +89,7 @@ class _AnimatedTabBarState extends ConsumerState<AnimatedTabBar>
                           color: _selectedIndex == i ? Colors.white : Colors.white54,
                           fontSize: _selectedIndex == i ? 16.0 : 15.0,
                         ),
-                        child: Text(AppBody.values[i].label),
+                        child: Text(AppPage.values[i].name),
                       ),
                     ),
                   ),

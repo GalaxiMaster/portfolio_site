@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfiolio_website/dot_background.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -59,7 +61,9 @@ class _HomePageState extends State<HomePage> {
                           icon: Icons.arrow_forward,
                         ),
                         actionTextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.go('/contact');
+                          },
                           text: 'Contact Me',
                         )
                       ],
@@ -109,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                   child: LayoutBuilder(
                     builder: (context, constraints) {
                       final int columns = (constraints.maxWidth / 400).floor().clamp(1, 3);
-                      final double cardWidth = (constraints.maxWidth - columns * 10) / columns;
+                      final double cardWidth = (constraints.maxWidth - (columns - 1) * 10) / columns;
                       final imageHeight = cardWidth * 9 / 16;
                       final double? cardHeight = columns > 1 
                         ? projectsList.map(

@@ -1,22 +1,23 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum AppBody {
-  home('Home'),
-  contact('Contact');
-
-  final String label;
-  const AppBody(this.label);
+enum AppPage {
+  home('Home', '/'),
+  contact('Contact', '/contact');
+  
+  final String name;
+  final String route;
+  const AppPage(this.name, this.route);
 }
 
-class AppBodyNotifier extends Notifier<AppBody> {
-  AppBody? previousPage;
+class AppBodyNotifier extends Notifier<AppPage> {
+  AppPage? previousPage;
 
   @override
-  AppBody build() => AppBody.home;
+  AppPage build() => AppPage.home;
 
-  void switchTo(AppBody body) => state = body;
+  void switchTo(AppPage body) => state = body;
 }
 
-final appBodyProvider = NotifierProvider<AppBodyNotifier, AppBody>(
+final appBodyProvider = NotifierProvider<AppBodyNotifier, AppPage>(
   AppBodyNotifier.new,
 );

@@ -22,10 +22,11 @@ class _ContactPageState extends State<ContactPage> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height,
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20),
         child: Center(
           child: Row(
             spacing: 50,
@@ -180,7 +181,7 @@ class _ContactPageState extends State<ContactPage> {
               )
             ],
           ),
-        )
+        ),
       ),
     );
   }
