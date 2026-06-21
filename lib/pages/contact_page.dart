@@ -93,7 +93,11 @@ class _ContactPageState extends State<ContactPage> {
                       hint: 'Type your message here', 
                       icon: Icons.message_outlined,
                       controller: messagingController, 
-                      maxLines: 10
+                      maxLines: 10,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) return 'Message is required';
+                        return null;
+                      }
                     ),
                     GestureDetector(
                       onTap: () {
@@ -103,8 +107,8 @@ class _ContactPageState extends State<ContactPage> {
                             emailController.text,
                             messagingController.text
                           );
+                          _formKey.currentState?.reset();
                         }
-                        _formKey.currentState?.reset();
                       },
                       child: Align(
                         alignment: Alignment.centerRight,
