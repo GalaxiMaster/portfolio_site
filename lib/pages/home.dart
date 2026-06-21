@@ -142,6 +142,10 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         SkillsSection(),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text('Dylan J - 2026'),
+        )
       ],
     );
   }

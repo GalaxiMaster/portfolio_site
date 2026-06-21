@@ -34,7 +34,7 @@ class MainApp extends ConsumerWidget {
                 top: 30,
                 left: responsiveLeft(context) - 60,
                 child: AnimatedTabBar()
-              )
+              ),
             ],
           ),
         )
@@ -42,4 +42,3 @@ class MainApp extends ConsumerWidget {
     );
   }
 }
-
