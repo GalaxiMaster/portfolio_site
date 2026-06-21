@@ -81,8 +81,8 @@ class _AnimatedTabBarState extends ConsumerState<AnimatedTabBar>
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       alignment: Alignment.center,
                       child: AnimatedDefaultTextStyle(
-                        duration: Duration(milliseconds: 150),
-                        curve: Curves.easeIn,
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.easeInOutQuad,
                         style: TextStyle(
                           color: _selectedIndex == i ? Colors.white : Colors.white54,
                           fontSize: _selectedIndex == i ? 16.0 : 15.0,
@@ -95,8 +95,8 @@ class _AnimatedTabBarState extends ConsumerState<AnimatedTabBar>
               ),
       
               AnimatedPositioned(
-                duration: const Duration(milliseconds: 150),
-                curve: Curves.easeOutQuad,
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeInOutQuad,
                 left: (tabWidth + 8) * _selectedIndex + 4,
                 bottom: 0,
                 child: ShaderMask(
