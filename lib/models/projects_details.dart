@@ -112,7 +112,7 @@ final projectsList = [
       ), 
       StoreItem(
         name: 'Android',
-        link: 'https://play.google.com/store/apps/details?id=com.DylanJ.exercise_app'
+        link: 'https://play.google.com/apps/testing/com.DylanJ.exercise_app'
       ),
     ], 
     keyFeatures: [
@@ -151,7 +151,7 @@ final projectsList = [
     title: 'Goober Net',
     description: 'Instagram clone for my friends and I to share photos and videos with each other.',
     imageUrl: 'assets/screenshots/goober_net_screenshot.png',
-    technologies: ['Flutter', 'Dart', 'Firebase', 'Cloudflare R2'],
+    technologies: ['Flutter', 'Dart', 'Firebase', 'CloudFlare'],
     publishedLocations: [
       StoreItem(
         name: 'Github',
