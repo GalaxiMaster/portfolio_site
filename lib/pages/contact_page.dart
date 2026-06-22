@@ -20,171 +20,203 @@ class _ContactPageState extends State<ContactPage> {
   final TextEditingController messagingController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+  double pageBreak = 1000;
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        child: Center(
-          child: Row(
-            spacing: 50,
-            mainAxisAlignment: MainAxisAlignment.center,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth > pageBreak) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 100),
+            child: Row(
+              spacing: 50,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: pageChildren(wideMode: true)
+            ),
+          );
+        } else {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
+            child: Column(
+              spacing: 25,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: pageChildren(wideMode: false)
+            ),
+          );
+        }
+      }
+    );
+  }
+  List<Widget> pageChildren({required bool wideMode}) {
+    return [
+      Container(
+        width: wideMode ? MediaQuery.of(context).size.width / 2 : pageBreak,
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 26, 26, 26),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Color.fromARGB(255, 36, 36, 36))
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            spacing: 20,
             crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Container(
-                width: 750,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 26, 26, 26),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Color.fromARGB(255, 36, 36, 36))
+              Text(
+                'Contact Me',
+                style: GoogleFonts.inter(
+                  fontSize: 40,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 1.5
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    spacing: 20,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'Contact Me',
-                        style: GoogleFonts.inter(
-                          fontSize: 40,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 1.5
-                        ),
-                      ),
-                      Row(
-                        spacing: 50,
-                        children: [
-                          Expanded(
-                            child: detailEditingBox(
-                              name: 'Name', 
-                              hint: 'Jane Doe',
-                              icon: Icons.person_outline,
-                              controller: nameController,
-                              validator: (input) {
-                                if (input == null || input.isEmpty) {
-                                  return 'Name is required';
-                                }
-                                else if (input.length > 32) {
-                                  return 'Name can\'t be more than 32 characters';
-                                }
-                                return null;
-                              }
-                            ),
-                          ),
-                          Expanded(
-                            child: detailEditingBox(
-                              name: 'Email', 
-                              hint: 'name@email.com', 
-                              icon: Icons.alternate_email,
-                              controller: emailController,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) return 'Email is required';
-                                if (!RegExp(r'^[\w.-]+@[\w.-]+\.\w+$').hasMatch(value)) return 'Invalid email';
-                                return null;
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                      detailEditingBox(
-                        name: 'Message', 
-                        hint: 'Type your message here', 
-                        icon: Icons.message_outlined,
-                        controller: messagingController, 
-                        maxLines: 10,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) return 'Message is required';
+              ),
+              Builder(
+                builder: (context) {
+                  final children = [
+                    Expanded(
+                      child: detailEditingBox(
+                        name: 'Name', 
+                        hint: 'Jane Doe',
+                        icon: Icons.person_outline,
+                        controller: nameController,
+                        validator: (input) {
+                          if (input == null || input.isEmpty) {
+                            return 'Name is required';
+                          }
+                          else if (input.length > 32) {
+                            return 'Name can\'t be more than 32 characters';
+                          }
                           return null;
                         }
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          if (_formKey.currentState?.validate() ?? false) {
-                            submitForm(
-                              nameController.text,
-                              emailController.text,
-                              messagingController.text
-                            );
-                            _formKey.currentState?.reset();
-                          }
+                    ),
+                    Expanded(
+                      child: detailEditingBox(
+                        name: 'Email', 
+                        hint: 'name@email.com', 
+                        icon: Icons.alternate_email,
+                        controller: emailController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) return 'Email is required';
+                          if (!RegExp(r'^[\w.-]+@[\w.-]+\.\w+$').hasMatch(value)) return 'Invalid email';
+                          return null;
                         },
-                        child: Align(
-                          alignment: Alignment.centerRight,
-                          child: InkWell(
-                            child: Container(
-                              height: 40,
-                              decoration: BoxDecoration(
-                                color: Colors.blue,
-                                borderRadius: BorderRadius.circular(10)
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                child: Row(
-                                  spacing: 7.5,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text('Send Message'),
-                                    Icon(Icons.send_rounded, size: 18,)
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+                      ),
+                    ),
+                  ];
+                  if (wideMode) {
+                    return Row(
+                      spacing: 50,
+                      children: children,
+                    );
+                  } else {
+                    return SizedBox(
+                      height: 200,
+                      child: Column(
+                        spacing: 20,
+                        mainAxisSize: MainAxisSize.min,
+                        children: children,
+                      ),
+                    );
+                  }
+                  
+                }
               ),
-              Container(
-                width: 350,
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 26, 26, 26),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Color.fromARGB(255, 36, 36, 36))
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SizedBox(height: 8,),
-                    socialBox(
-                      name: 'GitHub',
-                      icon: 'github.svg',
-                      link: 'https://github.com/galaximaster'
+              detailEditingBox(
+                name: 'Message', 
+                hint: 'Type your message here', 
+                icon: Icons.message_outlined,
+                controller: messagingController, 
+                maxLines: 10,
+                validator: (value) {
+                  if (value == null || value.isEmpty) return 'Message is required';
+                  return null;
+                }
+              ),
+              GestureDetector(
+                onTap: () {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    submitForm(
+                      nameController.text,
+                      emailController.text,
+                      messagingController.text
+                    );
+                    _formKey.currentState?.reset();
+                  }
+                },
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: InkWell(
+                    child: Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        child: Row(
+                          spacing: 7.5,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text('Send Message'),
+                            Icon(Icons.send_rounded, size: 18,)
+                          ],
+                        ),
+                      ),
                     ),
-                    socialBox(
-                      name: 'Email',
-                      icon: 'email.svg',
-                      link: 'mailto:dmj08bot@gmail.com',
-                      linkFront: 'dmj08bot@gmail.com'
-                    ),
-                    socialBox(
-                      name: 'LinkedIn',
-                      icon: 'linkedIn.svg',
-                      link: 'https://www.linkedin.com/in/dylan-j-3a3637317',
-                      linkFront: 'https://www.linkedin.com/in/dylan-j'
-                    ),
-                    socialBox(
-                      name: 'Based In',
-                      icon: 'location.svg',
-                      link: 'Sydney, Aus',
-                      enabled: false
-                    ),
-                    SizedBox(height: 8,),
-                  ],
+                  ),
                 ),
               )
             ],
           ),
-        )
+        ),
       ),
-    );
+      Container(
+        width: wideMode ? 350 : pageBreak,
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 26, 26, 26),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Color.fromARGB(255, 36, 36, 36))
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 8,),
+            socialBox(
+              name: 'GitHub',
+              icon: 'github.svg',
+              link: 'https://github.com/galaximaster'
+            ),
+            socialBox(
+              name: 'Email',
+              icon: 'email.svg',
+              link: 'mailto:dmj08bot@gmail.com',
+              linkFront: 'dmj08bot@gmail.com'
+            ),
+            socialBox(
+              name: 'LinkedIn',
+              icon: 'linkedIn.svg',
+              link: 'https://www.linkedin.com/in/dylan-j-3a3637317',
+              linkFront: 'https://www.linkedin.com/in/dylan-j'
+            ),
+            socialBox(
+              name: 'Based In',
+              icon: 'location.svg',
+              link: 'Sydney, Aus',
+              enabled: false
+            ),
+            SizedBox(height: 8,),
+          ],
+        ),
+      )
+    ];
   }
-
   Future<bool> submitForm(String name, String email, String message) async {
     final response = await http.post(
       Uri.parse('https://portfolio-email.dmj08bot.workers.dev'),

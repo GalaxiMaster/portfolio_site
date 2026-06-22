@@ -197,9 +197,11 @@ class ProjectPage extends StatelessWidget {
                           size: 16,
                         ),
                       ),
-                      Text(
-                        feature.split(':').first,
-                        style: TextStyle(fontSize: 18),
+                      Expanded(
+                        child: Text(
+                          feature.split(':').first,
+                          style: TextStyle(fontSize: 18),
+                        ),
                       )
                     ],
                   ),
