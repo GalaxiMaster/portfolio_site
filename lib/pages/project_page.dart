@@ -258,7 +258,7 @@ class ProjectPage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: SvgPicture.asset(
-                            'icons/${storeMap[loc.name]}.svg',
+                            'assets/icons/${storeMap[loc.name]}.svg',
                             width: 40,
                             height: 40,
                           ),
