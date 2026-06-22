@@ -7,6 +7,7 @@ import 'package:portfiolio_website/models/skillsData.dart';
 import 'package:portfiolio_website/models/projects_details.dart';
 import 'package:portfiolio_website/pages/project_page.dart';
 import 'package:portfiolio_website/tools.dart';
+import 'package:portfiolio_website/widgets.dart';
 import 'package:web/web.dart' as web;
 
 class HomePage extends StatefulWidget {
@@ -264,17 +265,15 @@ class _HomePageState extends State<HomePage> {
 class ProjectTile extends StatelessWidget {
   final ProjectDetails project;
   final bool fixedHeight;
-  ProjectTile({
+  const ProjectTile({
     super.key,
     required this.project,
     required this.fixedHeight,
   });
-  final ValueNotifier<bool> _isHovered = ValueNotifier(false);
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: _isHovered,
-      builder: (context, isHovered, child) {
+    return Hoverable(
+      builder: (isHovered) {
         return GestureDetector(
           onTap: () {
             showDialog(
@@ -286,124 +285,119 @@ class ProjectTile extends StatelessWidget {
               ),
             );
           },
-          child: MouseRegion(
-            onHover: (event) => _isHovered.value = true,
-            onExit: (event) => _isHovered.value = false,
-            cursor: SystemMouseCursors.click,
-            child: Stack(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 17, 17, 17),
-                    border: Border.all(color: Color.fromARGB(255, 35, 35, 35), width: 1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Stack(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-                            child: Image.asset(
-                              project.imageUrl,
-                              width: double.infinity,
-                            ),
-                          ),
-                          Positioned(
-                            top: 8,
-                            left: 8,
-                            child: Row(
-                              spacing: 6,
-                              children: project.publishedLocations.where((el) => el.display).map((location) {
-                                final color = switch(location.name.toLowerCase()) {
-                                  'web' => Color.fromARGB(255, 158, 110, 205),
-                                  'desktop' => Color.fromARGB(255, 96, 173, 247),
-                                  'android' => Color.fromARGB(255, 67, 190, 111),
-                                  'ios' => Color.fromARGB(255, 168, 174, 246),
-                                  _ => Color.fromARGB(255, 35, 35, 35),
-                                };
-                                return Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                  decoration: BoxDecoration(
-                                    color: Color.fromARGB(200, 6, 5, 5),
-                                    borderRadius: BorderRadius.circular(6),
-                                    border: Border.all(color: color, width: 1),
-                                  ),
-                                  child: Text(
-                                    location.name,
-                                    style: GoogleFonts.inter(
-                                      fontSize: 12,
-                                      color: color,
-                                    ),
-                                  ),
-                                );
-                              }).toList()
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Text(
-                          project.title,
-                          style: GoogleFonts.inter(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          project.description,
-                          style: GoogleFonts.inter(
-                            fontSize: 14,
-                            color: Color.fromARGB(255, 146, 146, 146),
-                          ),
-                        ),
-                      ),
-                      if (fixedHeight) Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Wrap(
-                          spacing: 6,
-                          runSpacing: 6,
-                          children: project.technologies.map((tech) => Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            margin: const EdgeInsets.only(left: 8, bottom: 8),
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 35, 35, 35),
-                              borderRadius: BorderRadius.circular(6),
-                            ),
-                            child: Text(
-                              tech,
-                              style: GoogleFonts.inter(
-                                fontSize: 14,
-                                color: Color.fromARGB(255, 161, 161, 161),
-                              ),
-                            ),
-                          )).toList(),
-                        ),
-                      )
-                    ],
-                  ),
+          child: Stack(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Color.fromARGB(255, 17, 17, 17),
+                  border: Border.all(color: Color.fromARGB(255, 35, 35, 35), width: 1),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                if (isHovered)
-                Positioned.fill(
-                  child: Material(
-                    color: Color.fromARGB(150, 13, 13, 13),
-                    child: Align(
-                      alignment: Alignment(0, -0.25),
-                      child: Icon(Icons.remove_red_eye_sharp),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                          child: Image.asset(
+                            project.imageUrl,
+                            width: double.infinity,
+                          ),
+                        ),
+                        Positioned(
+                          top: 8,
+                          left: 8,
+                          child: Row(
+                            spacing: 6,
+                            children: project.publishedLocations.where((el) => el.display).map((location) {
+                              final color = switch(location.name.toLowerCase()) {
+                                'web' => Color.fromARGB(255, 158, 110, 205),
+                                'desktop' => Color.fromARGB(255, 96, 173, 247),
+                                'android' => Color.fromARGB(255, 67, 190, 111),
+                                'ios' => Color.fromARGB(255, 168, 174, 246),
+                                _ => Color.fromARGB(255, 35, 35, 35),
+                              };
+                              return Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(200, 6, 5, 5),
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(color: color, width: 1),
+                                ),
+                                child: Text(
+                                  location.name,
+                                  style: GoogleFonts.inter(
+                                    fontSize: 12,
+                                    color: color,
+                                  ),
+                                ),
+                              );
+                            }).toList()
+                          ),
+                        )
+                      ],
                     ),
+                    SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        project.title,
+                        style: GoogleFonts.inter(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        project.description,
+                        style: GoogleFonts.inter(
+                          fontSize: 14,
+                          color: Color.fromARGB(255, 146, 146, 146),
+                        ),
+                      ),
+                    ),
+                    if (fixedHeight) Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Wrap(
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: project.technologies.map((tech) => Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          margin: const EdgeInsets.only(left: 8, bottom: 8),
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 35, 35, 35),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Text(
+                            tech,
+                            style: GoogleFonts.inter(
+                              fontSize: 14,
+                              color: Color.fromARGB(255, 161, 161, 161),
+                            ),
+                          ),
+                        )).toList(),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              if (isHovered)
+              Positioned.fill(
+                child: Material(
+                  color: Color.fromARGB(150, 13, 13, 13),
+                  child: Align(
+                    alignment: Alignment(0, -0.25),
+                    child: Icon(Icons.remove_red_eye_sharp),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       }

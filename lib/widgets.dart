@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:portfiolio_website/providers/body_provider.dart';
+import 'package:portfiolio_website/providers/supportshover.dart';
 
-class Hoverable extends StatefulWidget {
+class Hoverable extends ConsumerStatefulWidget {
   final Widget Function(bool hovered) builder;
-  const Hoverable({super.key, required this.builder});
+  final MouseCursor cursor;
+
+  const Hoverable({
+    super.key,
+    required this.builder,
+    this.cursor = MouseCursor.defer,
+  });
 
   @override
-  State<Hoverable> createState() => _HoverableState();
+  ConsumerState<Hoverable> createState() => _HoverableState();
 }
 
-class _HoverableState extends State<Hoverable> {
+class _HoverableState extends ConsumerState<Hoverable> {
   bool _hovered = false;
 
   @override
   Widget build(BuildContext context) {
+    final supportsHover = ref.watch(mouseConnectedProvider);
+
+    if (!supportsHover) return widget.builder(false);
+
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
@@ -23,7 +34,6 @@ class _HoverableState extends State<Hoverable> {
     );
   }
 }
-
 
 class AnimatedTabBar extends ConsumerStatefulWidget {
   const AnimatedTabBar({super.key});
