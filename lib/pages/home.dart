@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:portfiolio_website/dot_background.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -60,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                           icon: Icons.arrow_forward,
                         ),
                         actionTextButton(
-                          onPressed: () {},
+                          onPressed: () => context.go('/contact'),
                           text: 'Contact Me',
                         )
                       ],

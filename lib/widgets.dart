@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:portfiolio_website/providers/body_provider.dart';
+import 'package:go_router/go_router.dart';
 import 'package:portfiolio_website/providers/supportshover.dart';
 
 class Hoverable extends ConsumerStatefulWidget {
@@ -35,34 +35,30 @@ class _HoverableState extends ConsumerState<Hoverable> {
   }
 }
 
-class AnimatedTabBar extends ConsumerStatefulWidget {
-  const AnimatedTabBar({super.key});
-
-  @override
-  ConsumerState<AnimatedTabBar> createState() => _AnimatedTabBarState();
+class NavTab {
+  final String path;
+  final String label;
+  const NavTab({required this.path, required this.label});
 }
 
-class _AnimatedTabBarState extends ConsumerState<AnimatedTabBar>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-  int _selectedIndex = 0;
+/// Single source of truth for the toolbar's tabs and their URLs.
+const List<NavTab> appNavTabs = [
+  NavTab(path: '/home', label: 'Home'),
+  NavTab(path: '/contact', label: 'Contact'),
+];
 
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: AppBody.values.length, vsync: this)
-      ..addListener(() {
-        setState(() {
-          _selectedIndex = _tabController.index;
-          ref.read(appBodyProvider.notifier).switchTo(AppBody.values[_selectedIndex]);
-        });
-      });
-  }
+class AnimatedTabBar extends StatelessWidget {
+  /// The current route's path (e.g. state.matchedLocation from GoRouter),
+  /// passed in by the shell so the highlighted tab always matches the URL -
+  /// however navigation happened (tab tap, a button elsewhere, browser
+  /// back/forward, or a direct link).
+  final String currentPath;
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
+  const AnimatedTabBar({super.key, required this.currentPath});
+
+  int get _selectedIndex {
+    final index = appNavTabs.indexWhere((tab) => tab.path == currentPath);
+    return index == -1 ? 0 : index;
   }
 
   @override
@@ -70,7 +66,7 @@ class _AnimatedTabBarState extends ConsumerState<AnimatedTabBar>
     final double tabWidth = 70;
 
     return SizedBox(
-      width: (tabWidth + 8) * AppBody.values.length,
+      width: (tabWidth + 8) * appNavTabs.length,
       height: 100,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,9 +74,9 @@ class _AnimatedTabBarState extends ConsumerState<AnimatedTabBar>
           Stack(
             children: [
               Row(
-                children: List.generate(AppBody.values.length, (i) => Expanded(
+                children: List.generate(appNavTabs.length, (i) => Expanded(
                   child: InkWell(
-                    onTap: () => _tabController.animateTo(i),
+                    onTap: () => context.go(appNavTabs[i].path),
                     mouseCursor: SystemMouseCursors.click,
                     splashColor: Colors.transparent,
                     hoverColor: Colors.transparent,
@@ -97,7 +93,7 @@ class _AnimatedTabBarState extends ConsumerState<AnimatedTabBar>
                           color: _selectedIndex == i ? Colors.white : Colors.white54,
                           fontSize: _selectedIndex == i ? 16.0 : 15.0,
                         ),
-                        child: Text(AppBody.values[i].label),
+                        child: Text(appNavTabs[i].label),
                       ),
                     ),
                   ),
