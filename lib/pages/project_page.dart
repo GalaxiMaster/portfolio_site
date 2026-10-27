@@ -134,7 +134,7 @@ class ProjectPage extends StatelessWidget {
               spacing: 10,
               children: [
                 SvgPicture.asset(
-                  'icons/${skillsData.entries.fold([], (all, entry)=>all += entry.value).firstWhere((entry)=>entry['name'] == tech)['icon']}',
+                  'assets/icons/${skillsData.entries.fold([], (all, entry)=>all += entry.value).firstWhere((entry)=>entry['name'] == tech)['icon']}',
                   width: 20,
                   height: 20,
                 ),
